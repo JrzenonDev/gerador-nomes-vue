@@ -17,7 +17,6 @@
               <div class="card-body">
                 <ul class="list-group">
                   <li class="list-group-item" v-for="prefix in prefixes" v-bind:key="prefix">
-<<<<<<< HEAD
                     <div class="row">
 											<div class="col-md">
 												{{ prefix }}
@@ -35,13 +34,6 @@
                     <button class="btn btn-info" v-on:click="addPrefix(prefix)"><span class="fa fa-plus"></span></button>
                   </div>
                 </div>
-=======
-                    {{ prefix }}
-                  </li>
-                </ul>
-                <br>
-                <input type="text" class="form-control" placeholder="Digite o prefixo" />
->>>>>>> 7c28e4c37410c4c90b431109578acf8f4c8ebc67
               </div>
             </div>
 
@@ -54,7 +46,6 @@
               <div class="card-body">
                 <ul class="list-group">
                   <li class="list-group-item" v-for="sufix in sufixes" v-bind:key="sufix">
-<<<<<<< HEAD
                     <div class="row">
 											<div class="col-md">
 												{{ sufix }}
@@ -72,13 +63,6 @@
                     <button class="btn btn-info" v-on:click="addSufix(sufix)"><span class="fa fa-plus"></span></button>
                   </div>
                 </div>
-=======
-                    {{ sufix }}
-                  </li>
-                </ul>
-                <br>
-                <input type="text" class="form-control" placeholder="Digite o sufixo" />
->>>>>>> 7c28e4c37410c4c90b431109578acf8f4c8ebc67
               </div>
             </div>
 
@@ -110,7 +94,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
 
 export default {
-<<<<<<< HEAD
 	name: "app",
 	data: function () {
 		return {
@@ -118,49 +101,37 @@ export default {
 			sufix: "",
 			prefixes: ["Air", "Jet", "Flight"],
 			sufixes: ["Hub", "Station", "Mart"],
-			domains: ["AirHub", "AirStation", "AirMart", "JetHut", "JetStation", "JetMart"]
 		};
 	},
 	methods: {
-		addPrefix(sufix) {
-			this.prefixes.push(sufix);
+		addPrefix(prefix) {
+			this.prefixes.push(prefix);
 			this.prefix = "";
-			this.generate();
-		},
-		deleteSufix(sufix) {
-			this.sufixes.splice(this.sufixes.indexOf(sufix), 1);
-			this.generate();
-		},
-		addSufix(prefix) {
-			this.sufixes.push(prefix);
-			this.sufix = "";
-			this.generate();
 		},
 		deletePrefix(prefix) {
 			this.prefixes.splice(this.prefixes.indexOf(prefix), 1);
-			this.generate();
 		},
-		generate() {
-			this.domains = [];
+		addSufix(sufix) {
+			this.sufixes.push(sufix);
+			this.sufix = "";
+		},
+		deleteSufix(sufix) {
+			this.sufixes.splice(this.sufixes.indexOf(sufix), 1);
+		}
+	},
+	computed: {
+		domains() {
+			//console.log("Generation domains...");
+			const domains = [];
 			for (const prefix of this.prefixes) {
 				for (const sufix of this.sufixes) {
-					this.domains.push(sufix + prefix);
+					domains.push(sufix + prefix);
 				}
 			}
+			return domains;
 		}
 	}
 };
-=======
-  name: 'app',
-  data: function () {
-    return {
-      prefixes: ['Air', 'Jet', 'Flight'],
-      sufixes: ['Hub', 'Station', 'Mart'],
-      domains: ['AirHub', 'AirStation', 'AirMart', 'JetHut', 'JetStation', 'JetMart']
-    };
-  }
-}
->>>>>>> 7c28e4c37410c4c90b431109578acf8f4c8ebc67
 </script>
 
 <style>
