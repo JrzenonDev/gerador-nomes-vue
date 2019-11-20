@@ -10,8 +10,7 @@ const typeDefs = `
   }
 
   type Query {
-    prefixes: [Item]
-    sufixes: [Item]
+    items (type: String): [Item]
   }
 
 `;
@@ -27,11 +26,9 @@ const items = [
 
 const resolvers = {
   Query: {
-    prefixes() {
-      return items.filter(item => item.type === "prefixes");
-    },
-    sufixes() {
-      return items.filter(item => item.type === "sufixes");
+    items(_, args) {
+      console.log(args);
+      return items.filter(item => item.type === args.type);
     }
   }
 };
