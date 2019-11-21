@@ -96,7 +96,7 @@ export default {
 			data: {
 				query: `
 					{
-						prefixes: items (type: "prefix") {
+						prefixes: items (type: "prefixes") {
 							id
 							type
 							description
