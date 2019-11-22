@@ -20,12 +20,12 @@
           <input
             type="text"
             class="form-control"
-            v-model="item"
-            v-on:keyup.enter="addItem(item)"
+            v-model="description"
+            v-on:keyup.enter="addItem(type, description)"
             placeholder="Digite o item"
           />
           <div class="input-group-append">
-            <button class="btn btn-info" v-on:click="addItem(item)">
+            <button class="btn btn-info" v-on:click="addItem(type, description)">
               <span class="fa fa-plus"></span>
             </button>
           </div>
@@ -38,16 +38,19 @@
 <script>
 export default {
 	name: "HelloWorld",
-	props: ["title", "items"],
+	props: ["title", "type", "items"],
 	data() {
 		return {
-			item: ""
+			description: ""
 		};
 	},
 	methods: {
-		addItem(item) {
-			this.$emit("addItem", item);
-			this.item = "";
+		addItem(type, description) {
+			this.$emit("addItem", {
+				type,
+				description
+			});
+			this.description = "";
 		},
 		deleteItem(item) {
 			this.$emit("deleteItem", item);
