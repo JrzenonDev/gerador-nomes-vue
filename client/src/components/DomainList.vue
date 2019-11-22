@@ -54,7 +54,8 @@ export default {
 			items: {
 				prefix: [],
 				sufix: []
-			}
+			},
+			domains: []
 		};
 	},
 	methods: {
@@ -80,6 +81,7 @@ export default {
 				const query = response.data;
 				const newItem = query.data.newItem;
 				this.items[item.type].push(newItem);
+				this.generateDomains();
 			});
 		},
 		deleteItem(item) {
@@ -97,11 +99,12 @@ export default {
 					}
 				}
 			}).then(() => {
-				this.getItems(item.type);
+				this.items[item.type].splice(this.items[item.type].indexOf(item), 1);
+				this.generateDomains();
 			});
 		},
 		getItems(type) {
-			axios({
+			return axios({
 				url: "http://localhost:4000",
 				method: "post",
 				data: {
@@ -123,28 +126,29 @@ export default {
 				this.items[type] = query.data.items;
 			});
 		},
-	},
-	computed: {
-		domains() {
-			//console.log("Generation domains...");
-			const domains = [];
+		generateDomains() {
+			this.domains = [];
 			for (const prefix of this.items.prefix) {
 				for (const sufix of this.items.sufix) {
 					const name = prefix.description + sufix.description;
 					const url = name.toLowerCase();
 					const checkout = `https://checkout.hostgator.com.br/?a=add&sld=${url}&tld=.com.br`;
-					domains.push({
+					this.domains.push({
 						name,
 						checkout
 					});
 				}
 			}
-			return domains;
 		}
 	},
 	created() {
-		this.getItems("prefix");
-		this.getItems("sufix");
+		Promise.all([
+			this.getItems("prefix"),
+			this.getItems("sufix")
+		]).then(() => {
+			this.generateDomains();
+		});
+
 	}
 };
 </script>
