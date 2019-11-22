@@ -84,7 +84,22 @@ export default {
 			});
 		},
 		deletePrefix(prefix) {
-			this.prefixes.splice(this.prefixes.indexOf(prefix), 1);
+			axios({
+				url: "http://localhost:4000",
+				method: "post",
+				data: {
+					query: `
+						mutation ($id: Int) {
+							deleted: deleteItem(id: $id)
+						}
+					`,
+					variables: {
+						id: prefix.id
+					}
+				}
+			}).then(() => {
+				this.getPrefixes();
+			});
 		},
 		addSufix(sufix) {
 			this.sufixes.push(sufix);
