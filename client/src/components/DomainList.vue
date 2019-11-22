@@ -109,7 +109,7 @@ export default {
 				}
 			}).then(response => {
 				const query = response.data;
-				this.prefixes = query.data.prefixes.map(prefix => prefix.description);
+				this.prefixes = query.data.prefixes;
 			});
 		},
 		getSuffixes() {
@@ -127,7 +127,7 @@ export default {
 				}
 			}).then(response => {
 				const query = response.data;
-				this.sufixes = query.data.sufixes.map(sufix => sufix.description);
+				this.sufixes = query.data.sufixes;
 			});
 		}
 	},
@@ -137,7 +137,7 @@ export default {
 			const domains = [];
 			for (const prefix of this.prefixes) {
 				for (const sufix of this.sufixes) {
-					const name = prefix + sufix;
+					const name = prefix.description + sufix.description;
 					const url = name.toLowerCase();
 					const checkout = `https://checkout.hostgator.com.br/?a=add&sld=${url}&tld=.com.br`;
 					domains.push({
