@@ -127,18 +127,23 @@ export default {
 			});
 		},
 		generateDomains() {
-			this.domains = [];
-			for (const prefix of this.items.prefix) {
-				for (const sufix of this.items.sufix) {
-					const name = prefix.description + sufix.description;
-					const url = name.toLowerCase();
-					const checkout = `https://checkout.hostgator.com.br/?a=add&sld=${url}&tld=.com.br`;
-					this.domains.push({
-						name,
-						checkout
-					});
+			axios({
+				url: "http://localhost:4000",
+				method: "post",
+				data: {
+					query: `
+						mutation {
+							domains: generateDomains {
+								name
+								checkout
+							}
+						}
+					`
 				}
-			}
+			}).then((response) => {
+				const query = response.data;
+				this.domains = query.data.domains;
+			});
 		}
 	},
 	created() {
