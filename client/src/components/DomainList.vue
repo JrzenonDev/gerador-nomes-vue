@@ -41,10 +41,8 @@
 </template>
 
 <script>
-import "bootstrap/dist/css/bootstrap.css";
-import "font-awesome/css/font-awesome.css";
-import AppItemList from "./AppItemList";
 import axios from "axios/dist/axios";
+import AppItemList from "./AppItemList";
 
 export default {
 	name: "app",
@@ -59,7 +57,28 @@ export default {
 	},
 	methods: {
 		addPrefix(prefix) {
-			this.prefixes.push(prefix);
+			//this.prefixes.push(prefix);
+			axios({
+				url: "http://localhost:4000",
+				method: "post",
+				data: {
+					query: `
+						mutation ($item: ItemInput) {
+							newPrefix: saveItem(item: $item) {
+								id
+								type
+								description
+							}
+						}
+					`,
+					variables: {
+						item: {
+							type: "prefix",
+							description: prefix
+						}
+					}
+				}
+			});
 		},
 		deletePrefix(prefix) {
 			this.prefixes.splice(this.prefixes.indexOf(prefix), 1);
@@ -96,12 +115,12 @@ export default {
 			data: {
 				query: `
 					{
-						prefixes: items (type: "prefixes") {
+						prefixes: items (type: "prefix") {
 							id
 							type
 							description
 						},
-						sufixes: items (type: "sufixes") {
+						sufixes: items (type: "sufix") {
 							description
 						}
 					}
