@@ -1,3 +1,0 @@
-para rodar o projeto correr: npm run serve
-
-colocar projeto em produção: npm run build
